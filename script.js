@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	//what does this do?
+	//what does this do?- changes the card name to a value to use to compare against other numbers
 	function convert_value_to_string(value) {
 		if (value > 10) {
 			switch (value) {
@@ -18,7 +18,12 @@ $(document).ready(function() {
 		return value.toString();
 	}
 
-	//what does this do?
+	//what does this do?- It creates a new deck as an array- the first loop creates a 
+	//suit to sort into, the second one loops 13 times adding one of
+	//each card 1-13 and pushes a card object called "number"
+	//into each suit- the number declared by the index + 1 (since index
+	// starts at zero), and the
+	//suite determined by where it was in the first loop
 	var deck = [];
 	var suits = ['hearts', 'diamonds', 'spades', 'clubs'];
 	for (var i = 0; i<suits.length; i++) {
@@ -28,7 +33,14 @@ $(document).ready(function() {
 		}
 	}
 	
-	//what does this do?
+	//what does this do? It takes an array already created and declares a
+	//new "copy" array.  The var "n" determines the number of cards still in
+	//the deck and then starts a while loop.  The while loop- when n exists
+	//(i.e. it's greater than zero- it's not falsy), then it creats a random 
+	//number rounded down so it's an integer and multiplies it by the current
+	//length of the deck- if i is there- then it pushes it to the copy- 
+	// at the same time it desletes the original and goes back one in the index
+	//because deleting a card moves all the others up in the index
 	var shuffle = function(array) { 
 		var copy = [];
 		var n = array.length; 
@@ -47,9 +59,21 @@ $(document).ready(function() {
 	var cards_player_2 = [];
 	//divide out the cards into the two arrays
 	
+	var gameDeck = shuffle(deck);
+	cards_player_1 = gameDeck.splice(0,26);
+	cards_player_2 = gameDeck;
 	
 	//create a function (algorithm) called "war" that takes two cards as parameters, compares them and returns a winner. A tie should return false.
-	function war() {
+	var war = function(card1, card2) {
+		if (card1.number > card2.number){
+			return "player one";
+		}
+		else if (card1.number < card2.number) {
+			return "player two";
+		}
+		else {
+			return false;
+		}
 	}
 	
 	
@@ -57,7 +81,40 @@ $(document).ready(function() {
 		//compare the cards
 		//give the winner both cards (at end of deck)
 	function play() {
-		
+		var whoWon = war(cards_player_1[0],cards_player_2[0]);
+		if (whoWon === "player one"){
+			cards_player_1.push(cards_player_2[0], cards_player_1[0]);
+		}
+		else if(whoWon === "player two"){
+			cards_player_2.push(cards_player_2[0], cards_player_1[0]);
+		}
+		else {
+			alert("War!");
+			debugger;
+			var warArrPlay1 = [];
+			var warArrPlay2 = [];
+			
+			var whoWon = war(cards_player_1[3], cards_player_2[3]);
+				
+				if (whoWon === "player one"){
+					for (var i = 0; i<4; i++) {
+					cards_player_1.push(cards_player_2[i],cards_player_1[i]);
+					}
+				}
+				else if(whoWon === "player two"){
+				for (var i = 0; i<4; i++) {
+					cards_player_2.push(cards_player_2[i],cards_player_1[i]);
+					}
+				}
+				else if (false) {
+					alert("War!");
+				}
+			cards_player_1.splice(0,4);
+			cards_player_2.splice(0,4);
+			advance();
+		}
+		cards_player_1.splice(0,1);
+		cards_player_2.splice(0,1);
 		//this function (defined below) will continue to the next turn
 		advance();
 	}
