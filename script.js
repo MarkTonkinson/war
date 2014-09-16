@@ -84,37 +84,40 @@ $(document).ready(function() {
 		var whoWon = war(cards_player_1[0],cards_player_2[0]);
 		if (whoWon === "player one"){
 			cards_player_1.push(cards_player_2[0], cards_player_1[0]);
+			cards_player_1.splice(0,1);
+			cards_player_2.splice(0,1);
 		}
+
 		else if(whoWon === "player two"){
 			cards_player_2.push(cards_player_2[0], cards_player_1[0]);
+			cards_player_1.splice(0,1);
+			cards_player_2.splice(0,1);
 		}
 		else {
 			alert("War!");
-			debugger;
-			var warArrPlay1 = [];
-			var warArrPlay2 = [];
 			
-			var whoWon = war(cards_player_1[3], cards_player_2[3]);
+			
+			var tieBreaker = war(cards_player_1[3], cards_player_2[3]);
 				
-				if (whoWon === "player one"){
+				if (tieBreaker === "player one"){
 					for (var i = 0; i<4; i++) {
 					cards_player_1.push(cards_player_2[i],cards_player_1[i]);
 					}
+					cards_player_1.splice(0,4);
+					cards_player_2.splice(0,4);
 				}
-				else if(whoWon === "player two"){
+				else if(tieBreaker === "player two"){
 				for (var i = 0; i<4; i++) {
 					cards_player_2.push(cards_player_2[i],cards_player_1[i]);
 					}
+					cards_player_1.splice(0,4);
+					cards_player_2.splice(0,4);
 				}
-				else if (false) {
-					alert("War!");
+				else {
+					alert("Game Over");
 				}
-			cards_player_1.splice(0,4);
-			cards_player_2.splice(0,4);
-			advance();
 		}
-		cards_player_1.splice(0,1);
-		cards_player_2.splice(0,1);
+	
 		//this function (defined below) will continue to the next turn
 		advance();
 	}
